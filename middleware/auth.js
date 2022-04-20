@@ -16,7 +16,7 @@ exports.isAuthenticatedAdmin = catchAsyncError(async (req, res, next) => {
 exports.authRole = (...roles) => {
     return (req, res, next) => {
         if (!roles.includes(req.admin.role)) {
-            return next(new ErrorHandler(`Role: ${req.client.role} is not alowed to access this resource`, 403));
+            return next(new ErrorHandler(`Role: ${req.admin.role} is not alowed to access this resource`, 403));
         }
         next();
     }

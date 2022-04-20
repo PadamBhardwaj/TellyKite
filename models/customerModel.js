@@ -2,11 +2,21 @@ const mongoose = require("mongoose");
 const validator = require("validator");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
-const amdinSchema = new mongoose.Schema({
+const customerSchema = new mongoose.Schema({
     customer_id: {
         type: mongoose.Schema.Types.ObjectId
     },
+    reseller_id: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "reseller"
+    },
     role: "customer",
+    //dependent customer or independent customer
+    mode: {
+        type: String, //via reseller or direct
+
+        required: true
+    },
     name: String,
     // address:String,
     // Date:Date,
@@ -27,8 +37,10 @@ const amdinSchema = new mongoose.Schema({
         minlength: [6, 'min length of password should be 6'],
         select: false
     },
-
-
+    TallyAccounts: [{
+        tallyUsername: String,
+        tallyPassword: String
+    }]
 });
 customerSchema.pre("save", async function (next) {
     if (!this.isModified("password")) {

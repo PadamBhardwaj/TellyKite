@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 const validator = require("validator");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
-const amdinSchema = new mongoose.Schema({
+const resellerSchema = new mongoose.Schema({
     reseller_id: {
         type: mongoose.Schema.Types.ObjectId
     },

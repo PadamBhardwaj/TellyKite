@@ -1,4 +1,4 @@
-const { addListener } = require("../Models/clientModel");
+
 const Reseller = require("../Models/resellerModel")
 // const Customer = require("../Models/customerModel")
 const ErrorHandler = require("../utils/errorHandler")
@@ -31,27 +31,7 @@ exports.getReseller = catchAsyncError(async (req, res) => {
 });
 
 
-// get all the orders of a customer of a client
 
-// exports.getOrdersOfCustomerOfClient = catchAsyncError(async (req, res, next) => {
-//     const client_id = req.params.id;
-//     // console.log(client_id);
-//     const customers = await Customer.find({ client_id });
-//     if (!customers) {
-//         return next(new ErrorHandler("No customers found", 400));
-//     }
-//     const customer = await customers[0];
-//     const orderarr = await customer.orders;
-
-//     // console.log(orderarr[0]);
-
-//     const order = await Order.find({ _id: orderarr[0] });
-//     res.status(200).json({
-//         success: true,
-//         customer,
-//         order
-//     })
-// })
 exports.loginReseller = catchAsyncError(async (req, res, next) => {
     const { email, password } = req.body;
 

@@ -10,7 +10,10 @@ const customerSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: "reseller"
     },
-    role: "customer",
+    role: {
+        type: String,
+        default: "customer"
+    },
     //dependent customer or independent customer
     mode: {
         type: String, //via reseller or direct
@@ -49,7 +52,7 @@ customerSchema.pre("save", async function (next) {
     this.password = await bcrypt.hash(this.password, 10);
 });
 //JWT
-customerSchema.getJWTToken = function () {
+customerSchema.methods.getJWTToken = function () {
     return jwt.sign({ id: this._id }, process.env.JWT_SECRET, {
         expiresIn: process.env.JWT_EXPIRE
     })

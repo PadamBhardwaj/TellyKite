@@ -6,7 +6,10 @@ const resellerSchema = new mongoose.Schema({
     reseller_id: {
         type: mongoose.Schema.Types.ObjectId
     },
-    role: "reseller",
+    role: {
+        type: String,
+        default: "reseller"
+    },
     name: String,
     // address:String,
     // Date:Date,
@@ -37,7 +40,7 @@ resellerSchema.pre("save", async function (next) {
     this.password = await bcrypt.hash(this.password, 10);
 });
 //JWT
-resellerSchema.getJWTToken = function () {
+resellerSchema.methods.getJWTToken = function () {
     return jwt.sign({ id: this._id }, process.env.JWT_SECRET, {
         expiresIn: process.env.JWT_EXPIRE
     })

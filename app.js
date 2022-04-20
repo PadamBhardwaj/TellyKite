@@ -7,17 +7,18 @@ const mongoose = require("mongoose");
 const app = express();
 const errorMiddleware = require("./middleware/error")
 const cors = require('cors');
+
 app.use(cors())
 app.use(express.json());
 app.use(cookieParser());
 app.use(express.static("public"));
 app.use(errorMiddleware);
 app.use(bodyParser.urlencoded({ extended: true }));
-mongoose.connect(process.env.DBPATH + "/customerDB", { useNewUrlParser: true });
+mongoose.connect(process.env.DBPATH + "/TallyDB", { useNewUrlParser: true });
 
 //Routes
 const customer = require("./Routes/customerRoute")
-const reseller = require("./Routes/resellerRoute")
+const reseller = require("./Routes/resellerRoutes")
 const admin = require("./Routes/adminRoute")
 app.use("/api", customer);
 app.use("/api", reseller);

@@ -70,3 +70,78 @@ exports.logout = catchAsyncError(async (req, res, next) => {
     })
 })
 
+// Forgot Password
+exports.forgotPassword = catchAsyncError(async (req, res, next) => {
+    const reseller = await Reseller.findOne({ email: req.body.email });
+
+    if (!reseller) {
+        return next(new ErrorHandler("User not found", 404));
+    }
+
+    // Get ResetPassword Token
+    const resetToken = reseller.getResetPasswordToken();
+
+    await reseller.save({ validateBeforeSave: false });
+
+    const resetPasswordUrl = `${req.protocol}://${req.get(
+        "host"
+    )}/password/reset/${resetToken}`;
+
+    const message = `Your password reset token is :- \n\n ${resetPasswordUrl} \n\nIf you have not requested this email then, please ignore it.`;
+
+    try {
+        await sendEmail({
+            email: user.email,
+            subject: `TallyKite Password Recovery`,
+            message,
+        });
+
+        res.status(200).json({
+            success: true,
+            message: `Email sent to ${reseller.email} successfully`,
+        });
+    } catch (error) {
+        reseller.resetPasswordToken = undefined;
+        reseller.resetPasswordExpire = undefined;
+
+        await reseller.save({ validateBeforeSave: false });
+
+        return next(new ErrorHandler(error.message, 500));
+    }
+});
+
+
+// Reset Password
+exports.resetPassword = catchAsyncError(async (req, res, next) => {
+    // creating token hash
+    const resetPasswordToken = crypto
+        .createHash("sha256")
+        .update(req.params.token)
+        .digest("hex");
+
+    const reseller = await Reseller.findOne({
+        resetPasswordToken,
+        resetPasswordExpire: { $gt: Date.now() },
+    });
+
+    if (!reseller) {
+        return next(
+            new ErrorHandler(
+                "Reset Password Token is invalid or has been expired",
+                400
+            )
+        );
+    }
+
+    if (req.body.password !== req.body.confirmPassword) {
+        return next(new ErrorHandler("Password does not password", 400));
+    }
+
+    reseller.password = req.body.password;
+    reseller.resetPasswordToken = undefined;
+    reseller.resetPasswordExpire = undefined;
+
+    await reseller.save();
+
+    sendToken(reseller, 200, res);
+});

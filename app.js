@@ -17,8 +17,8 @@ app.use(bodyParser.urlencoded({ extended: true }));
 mongoose.connect(process.env.DBPATH + "/TallyDB", { useNewUrlParser: true });
 
 //Routes
-const customer = require("./Routes/customerRoute")
 const reseller = require("./Routes/resellerRoutes")
+const customer = require("./Routes/customerRoute")
 const admin = require("./Routes/adminRoute")
 app.use("/api", customer);
 app.use("/api", reseller);

@@ -52,5 +52,19 @@ resellerSchema.methods.comparePassword = async function (enteredPassword) {
     // console.log(bool);
     return bool;
 }
+// Generating Password Reset Token
+resellerSchema.methods.getResetPasswordToken = function () {
+    // Generating Token
+    const resetToken = crypto.randomBytes(20).toString("hex");
 
+    // Hashing and adding resetPasswordToken to userSchema
+    this.resetPasswordToken = crypto
+        .createHash("sha256")
+        .update(resetToken)
+        .digest("hex");
+
+    this.resetPasswordExpire = Date.now() + 15 * 60 * 1000;
+
+    return resetToken;
+};
 module.exports = mongoose.model("Reseller", resellerSchema);

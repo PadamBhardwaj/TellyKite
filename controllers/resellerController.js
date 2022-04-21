@@ -19,7 +19,7 @@ exports.registerreseller = catchAsyncError(async (req, res, next) => {
 
 });
 exports.getReseller = catchAsyncError(async (req, res) => {
-
+    // console.log(req)
     const reseller = await Reseller.findById(req.reseller.id);
     if (!reseller) {
         res.status(400);
@@ -40,7 +40,7 @@ exports.loginReseller = catchAsyncError(async (req, res, next) => {
         return next(new ErrorHandler("Please enter email and password", 400));
 
     }
-    const reseller = Reseller.findOne({ email }).select("+password");
+    const reseller = await Reseller.findOne({ email }).select("+password");
 
     if (!reseller) {
         return next(new ErrorHandler("Invalid username ", 401));

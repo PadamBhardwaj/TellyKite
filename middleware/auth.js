@@ -2,6 +2,8 @@ const ErrorHandler = require("../utils/errorHandler");
 const catchAsyncError = require("./catchAsyncError");
 const jwt = require("jsonwebtoken");
 const Admin = require("../Models/adminModel")
+const Reseller = require("../Models/resellerModel")
+const Customer = require("../Models/customerModel")
 exports.isAuthenticatedAdmin = catchAsyncError(async (req, res, next) => {
     const { token } = req.cookies;
     // console.log(token);
@@ -10,6 +12,26 @@ exports.isAuthenticatedAdmin = catchAsyncError(async (req, res, next) => {
     }
     const decodedData = jwt.verify(token, process.env.JWT_SECRET);
     req.admin = await Admin.findById(decodedData.id);
+    next();
+});
+exports.isAuthenticatedReseller = catchAsyncError(async (req, res, next) => {
+    const { token } = req.cookies;
+    // console.log(token);
+    if (!token) {
+        return next(new ErrorHandler("Please login reseller to access this page", 401));
+    }
+    const decodedData = jwt.verify(token, process.env.JWT_SECRET);
+    req.reseller = await Reseller.findById(decodedData.id);
+    next();
+});
+exports.isAuthenticatedCustomer = catchAsyncError(async (req, res, next) => {
+    const { token } = req.cookies;
+    // console.log(token);
+    if (!token) {
+        return next(new ErrorHandler("Please login customer to access this page", 401));
+    }
+    const decodedData = jwt.verify(token, process.env.JWT_SECRET);
+    req.customer = await Customer.findById(decodedData.id);
     next();
 });
 

@@ -39,7 +39,7 @@ exports.loginCustomer = catchAsyncError(async (req, res, next) => {
         return next(new ErrorHandler("Please enter email and password", 400));
 
     }
-    const customer = Customer.findOne({ email }).select("+password");
+    const customer = await Customer.findOne({ email }).select("+password");
 
     if (!customer) {
         return next(new ErrorHandler("Invalid username ", 401));

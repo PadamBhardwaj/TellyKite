@@ -12,7 +12,6 @@ app.use(cors())
 app.use(express.json());
 app.use(cookieParser());
 app.use(express.static("public"));
-app.use(errorMiddleware);
 app.use(bodyParser.urlencoded({ extended: true }));
 mongoose.connect(process.env.DBPATH + "/TallyDB", { useNewUrlParser: true });
 
@@ -23,6 +22,7 @@ const admin = require("./Routes/adminRoute")
 app.use("/api", customer);
 app.use("/api", reseller);
 app.use("/api", admin);
+app.use(errorMiddleware);
 
 // Handling Uncaught Exception
 process.on("uncaughtException", (err) => {

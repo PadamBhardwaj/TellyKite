@@ -6,12 +6,13 @@ const catchAsyncError = require("../middleware/catchAsyncError");
 const sendToken = require("../utils/jwtToken");
 const bcrypt = require("bcryptjs");
 exports.registercustomer = catchAsyncError(async (req, res, next) => {
-    const { name, email, password, username } = req.body;
+    const { name, email, password, username, mode } = req.body;
     const customer = await Customer.create({
         name,
         email,
         password,
-        username
+        username,
+        mode
     })
     console.log(req.body);
     // console.log("Controller")

@@ -14,10 +14,28 @@ exports.registercustomer = catchAsyncError(async (req, res, next) => {
         username,
         mode
     })
-    console.log(req.body);
-    // console.log("Controller")
+    // console.log(req.body);
+
     sendToken(customer, 200, res);
 
+});
+exports.addtellyaccount = catchAsyncError(async (req, res, next) => {
+    const { username, password } = req.body;
+    const customer = await Customer.findById(req.customer.id);
+    const account = {
+        tellyUsername: username,
+        tellyPassword: password
+    }
+    customer.TellyAccounts.push(account);
+    // console.log(req.body);
+    customer.save();
+    // console.log("Controller")
+    console.log(customer.TellyAccounts)
+    res.status(200).json({
+
+        success: true,
+        message: "New Telly account added successfully"
+    })
 });
 exports.getCustomer = catchAsyncError(async (req, res) => {
 

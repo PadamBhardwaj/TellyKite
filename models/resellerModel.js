@@ -30,7 +30,11 @@ const resellerSchema = new mongoose.Schema({
         minlength: [6, 'min length of password should be 6'],
         select: false
     },
-
+    company: String,
+    website:String,
+    location: String,
+    cell_No: Number,
+    telephoneNumber: Number
 
 });
 resellerSchema.pre("save", async function (next) {

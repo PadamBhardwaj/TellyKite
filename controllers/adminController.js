@@ -31,6 +31,51 @@ exports.getAdmin = catchAsyncError(async (req, res) => {
 });
 
 
+// update Reseller Profile
+exports.updateProfileReseller = catchAsyncError(async (req, res, next) => {
+    const newUserData = {
+        name: req.body.name,
+        email: req.body.email,
+        username: req.body.username,
+        company: req.body.company,
+        website: req.body.website,
+        location: req.body.location,
+        telephoneNumber: req.body.telephoneNumber
+    };
+
+    const reseller = await Reseller.findByIdAndUpdate(req.params.resellerId, newUserData, {
+        new: true,
+        runValidators: true,
+        useFindAndModify: false,
+    });
+
+    res.status(200).json({
+        success: true,
+    });
+});
+// update Custoemr Profile
+exports.updateProfileCustomer = catchAsyncError(async (req, res, next) => {
+    const newUserData = {
+        name: req.body.name,
+        email: req.body.email,
+        username: req.body.username,
+        company: req.body.company,
+        website: req.body.website,
+        location: req.body.location,
+        telephoneNumber: req.body.telephoneNumber
+    };
+
+    const customer = await Customer.findByIdAndUpdate(req.params.customerId, newUserData, {
+        new: true,
+        runValidators: true,
+        useFindAndModify: false,
+    });
+
+    res.status(200).json({
+        success: true,
+    });
+});
+
 exports.loginAdmin = catchAsyncError(async (req, res, next) => {
     const { email, password } = req.body;
 
@@ -143,4 +188,37 @@ exports.resetPassword = catchAsyncError(async (req, res, next) => {
     await admin.save();
 
     sendToken(admin, 200, res);
+});
+
+
+// Delete Reseller
+exports.deleteReseller = catchAsyncError(async (req, res, next) => {
+    const reseller = await Reseller.findById(req.params.id);
+
+    if (!reseller) {
+        return next(
+            new ErrorHandler(`Reseller does not exist with Id: ${req.params.id}`, 400)
+        );
+    }
+    await reseller.remove();
+    res.status(200).json({
+        success: true,
+        message: "Reseller Deleted Successfully",
+    });
+});
+// Delete Customer
+exports.deleteCustomer = catchAsyncError(async (req, res, next) => {
+    const customer = await Customer.findById(req.params.id);
+
+    if (!customer) {
+        return next(
+            new ErrorHandler(`Customer does not exist with Id: ${req.params.id}`, 400)
+        );
+    }
+    await customer.remove();
+
+    res.status(200).json({
+        success: true,
+        message: "Customer Deleted Successfully",
+    });
 });

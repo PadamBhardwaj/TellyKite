@@ -5,6 +5,8 @@ const ErrorHandler = require("../utils/errorHandler")
 const catchAsyncError = require("../middleware/catchAsyncError");
 const sendToken = require("../utils/jwtToken");
 const bcrypt = require("bcryptjs");
+
+// Register customer
 exports.registercustomer = catchAsyncError(async (req, res, next) => {
     const { name, email, password, username, mode } = req.body;
     const customer = await Customer.create({
@@ -19,6 +21,8 @@ exports.registercustomer = catchAsyncError(async (req, res, next) => {
     sendToken(customer, 200, res);
 
 });
+
+// Add new Telly Account for the customer
 exports.addtellyaccount = catchAsyncError(async (req, res, next) => {
     const { username, password } = req.body;
     const customer = await Customer.findById(req.customer.id);
@@ -37,6 +41,7 @@ exports.addtellyaccount = catchAsyncError(async (req, res, next) => {
         message: "New Telly account added successfully"
     })
 });
+// get logged in customer
 exports.getCustomer = catchAsyncError(async (req, res) => {
 
     const customer = await Customer.findById(req.customer.id);
@@ -49,6 +54,7 @@ exports.getCustomer = catchAsyncError(async (req, res) => {
     })
 });
 
+// log in customer
 exports.loginCustomer = catchAsyncError(async (req, res, next) => {
     const { email, password } = req.body;
 

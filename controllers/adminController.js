@@ -1,11 +1,15 @@
 
 
 const Admin = require("../Models/adminModel")
+const Customer = require("../Models/customersModel")
+const Reseller = require("../Models/resellerModel")
 
 const ErrorHandler = require("../utils/errorHandler")
 const catchAsyncError = require("../middleware/catchAsyncError");
 const sendToken = require("../utils/jwtToken");
 const bcrypt = require("bcryptjs");
+
+// Register Admin <<( !!!For Testing!!! )>>
 exports.registeradmin = catchAsyncError(async (req, res, next) => {
     const { name, email, password, username } = req.body;
     const admin = await Admin.create({
@@ -18,6 +22,8 @@ exports.registeradmin = catchAsyncError(async (req, res, next) => {
     sendToken(admin, 200, res);
 
 });
+
+// get logged in Admin
 exports.getAdmin = catchAsyncError(async (req, res) => {
 
     const admin = await Admin.findById(req.admin.id);
@@ -75,7 +81,7 @@ exports.updateProfileCustomer = catchAsyncError(async (req, res, next) => {
         success: true,
     });
 });
-
+// login admin
 exports.loginAdmin = catchAsyncError(async (req, res, next) => {
     const { email, password } = req.body;
 
@@ -188,6 +194,26 @@ exports.resetPassword = catchAsyncError(async (req, res, next) => {
     await admin.save();
 
     sendToken(admin, 200, res);
+});
+
+// Get all Reselleres
+exports.getAllResellers = catchAsyncError(async (req, res, next) => {
+    const reseller = await Reseller.find();
+
+    res.status(200).json({
+        success: true,
+        reseller,
+    });
+});
+
+// Get all Customers
+exports.getAllCustomers = catchAsyncError(async (req, res, next) => {
+    const customer = await Customer.find();
+
+    res.status(200).json({
+        success: true,
+        customer,
+    });
 });
 
 

@@ -1,10 +1,11 @@
 
 const Reseller = require("../Models/resellerModel")
-// const Customer = require("../Models/customerModel")
+const Customer = require("../Models/customersModel")
 const ErrorHandler = require("../utils/errorHandler")
 const catchAsyncError = require("../middleware/catchAsyncError");
 const sendToken = require("../utils/jwtToken");
 const bcrypt = require("bcryptjs");
+//register reseller
 exports.registerreseller = catchAsyncError(async (req, res, next) => {
     const { name, email, password, username } = req.body;
     const reseller = await Reseller.create({
@@ -18,6 +19,8 @@ exports.registerreseller = catchAsyncError(async (req, res, next) => {
     sendToken(reseller, 200, res);
 
 });
+
+// get the logged in reseller
 exports.getReseller = catchAsyncError(async (req, res) => {
     // console.log(req)
     const reseller = await Reseller.findById(req.reseller.id);
@@ -30,8 +33,22 @@ exports.getReseller = catchAsyncError(async (req, res) => {
     })
 });
 
+// get all  customers of Reseller
+exports.getCustomersOfReseller = catchAsyncError(async (req, res, next) => {
+    const reseller_id = req.reseller.id;
+    console.log(reseller_id);
+    const customers = await Customer.find({ reseller_id });
+    if (!customers) {
+        return next(new ErrorHandler("No customers found", 400));
+    }
+    console.log(customers);
+    res.status(200).json({
+        success: true,
+        customers
+    })
+})
 
-
+//login reseller
 exports.loginReseller = catchAsyncError(async (req, res, next) => {
     const { email, password } = req.body;
 

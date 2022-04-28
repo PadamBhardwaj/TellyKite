@@ -34,7 +34,8 @@ const resellerSchema = new mongoose.Schema({
     website:String,
     location: String,
     cell_No: Number,
-    telephoneNumber: Number
+    telephoneNumber: Number,
+    customerCount:Number
 
 });
 resellerSchema.pre("save", async function (next) {

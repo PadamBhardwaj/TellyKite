@@ -1,5 +1,6 @@
 
 const Customer = require("../Models/customersModel")
+const Reseller = require("../Models/resellerModel")
 // const Customer = require("../Models/customerModel")
 const ErrorHandler = require("../utils/errorHandler")
 const catchAsyncError = require("../middleware/catchAsyncError");
@@ -8,14 +9,34 @@ const bcrypt = require("bcryptjs");
 
 // Register customer
 exports.registercustomer = catchAsyncError(async (req, res, next) => {
-    const { name, email, password, username, mode } = req.body;
+    const { name, email, password, username } = req.body;
     const customer = await Customer.create({
         name,
         email,
         password,
         username,
-        mode
+        mode: "direct"
     })
+
+    // console.log(req.body);
+
+    sendToken(customer, 200, res);
+
+});
+exports.registercustomerreseller = catchAsyncError(async (req, res, next) => {
+    const { name, email, password, username } = req.body;
+    const customer = await Customer.create({
+        name,
+        email,
+        password,
+        username,
+        mode: "reseller"
+    })
+
+    const reseller = await Reseller.findById(req.reseller.id);
+    reseller.customerCount++;
+    customer.reseller_id = reseller.id;
+
     // console.log(req.body);
 
     sendToken(customer, 200, res);

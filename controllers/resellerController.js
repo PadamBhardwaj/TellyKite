@@ -5,6 +5,8 @@ const ErrorHandler = require("../utils/errorHandler")
 const catchAsyncError = require("../middleware/catchAsyncError");
 const sendToken = require("../utils/jwtToken");
 const bcrypt = require("bcryptjs");
+global.crypto = require("crypto");
+const sendEmail = require("../utils/sendEmail");
 //register reseller
 exports.registerreseller = catchAsyncError(async (req, res, next) => {
     const { name, email, password, username } = req.body;
@@ -108,8 +110,8 @@ exports.forgotPassword = catchAsyncError(async (req, res, next) => {
 
     try {
         await sendEmail({
-            email: user.email,
-            subject: `TallyKite Password Recovery`,
+            email: reseller.email,
+            subject: `TellyKite Password Recovery`,
             message,
         });
 
@@ -157,6 +159,28 @@ exports.resetPassword = catchAsyncError(async (req, res, next) => {
     reseller.password = req.body.password;
     reseller.resetPasswordToken = undefined;
     reseller.resetPasswordExpire = undefined;
+
+    await reseller.save();
+
+    sendToken(reseller, 200, res);
+});
+
+
+// update Reseller password
+exports.updatePassword = catchAsyncError(async (req, res, next) => {
+    const reseller = await Reseller.findById(req.reseller.id).select("+password");
+
+    const isPasswordMatched = await reseller.comparePassword(req.body.oldPassword);
+
+    if (!isPasswordMatched) {
+        return next(new ErrorHandler("Old password is incorrect", 400));
+    }
+
+    if (req.body.newPassword !== req.body.confirmPassword) {
+        return next(new ErrorHandler("password does not match", 400));
+    }
+
+    reseller.password = req.body.newPassword;
 
     await reseller.save();
 

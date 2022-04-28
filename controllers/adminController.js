@@ -8,6 +8,8 @@ const ErrorHandler = require("../utils/errorHandler")
 const catchAsyncError = require("../middleware/catchAsyncError");
 const sendToken = require("../utils/jwtToken");
 const bcrypt = require("bcryptjs");
+global.crypto = require("crypto");
+const sendEmail = require("../utils/sendEmail");
 
 // Register Admin <<( !!!For Testing!!! )>>
 exports.registeradmin = catchAsyncError(async (req, res, next) => {

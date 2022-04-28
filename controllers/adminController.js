@@ -195,7 +195,14 @@ exports.resetPassword = catchAsyncError(async (req, res, next) => {
 
     sendToken(admin, 200, res);
 });
-
+//top Reseller
+exports.topReseller = catchAsyncError(async (req, res, next) => {
+    const reseller = await Reseller.find().sort('customerCount');
+    res.status(200).json({
+        success: true,
+        reseller
+    });
+});
 // Get all Reselleres
 exports.getAllResellers = catchAsyncError(async (req, res, next) => {
     const reseller = await Reseller.find();

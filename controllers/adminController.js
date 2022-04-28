@@ -107,7 +107,7 @@ exports.loginAdmin = catchAsyncError(async (req, res, next) => {
 }
 )
 
-//logut client
+//logout client
 exports.logout = catchAsyncError(async (req, res, next) => {
     res.cookie("token", null, {
         expires: new Date(Date.now()),
@@ -197,7 +197,7 @@ exports.resetPassword = catchAsyncError(async (req, res, next) => {
 });
 //top Reseller
 exports.topReseller = catchAsyncError(async (req, res, next) => {
-    const reseller = await Reseller.find().sort('customerCount');
+    const reseller = await Reseller.findOne().sort('-customerCount').limit(1);
     res.status(200).json({
         success: true,
         reseller

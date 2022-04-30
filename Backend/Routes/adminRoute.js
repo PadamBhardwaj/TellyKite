@@ -1,8 +1,9 @@
 const express = require("express");
-const { getAdmin, loginAdmin, logout, topReseller, forgotPassword, getAllCustomers, getAllResellers, updateProfileCustomer, updateProfileReseller, resetPassword, registeradmin, deleteCustomer, deleteReseller } = require("../controllers/adminController")
+const { getAdmin, loginAdmin, getbyemail, logout, topReseller, forgotPassword, getAllCustomers, getAllResellers, updateProfileCustomer, updateProfileReseller, resetPassword, registeradmin, deleteCustomer, deleteReseller } = require("../controllers/adminController")
 const router = express.Router();
 const { isAuthenticatedAdmin, authRole } = require("../middleware/auth");
 router.route("/admin").get(isAuthenticatedAdmin, getAdmin);
+router.route("/check").post(getbyemail);
 router.route("/admin/register").post(registeradmin);
 router.route("/admin/updatereseller/:resellerId").put(isAuthenticatedAdmin, updateProfileReseller);
 router.route("/admin/updatecustomer/:customerId").put(isAuthenticatedAdmin, updateProfileCustomer);

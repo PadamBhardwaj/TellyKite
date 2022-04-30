@@ -37,7 +37,39 @@ exports.getAdmin = catchAsyncError(async (req, res) => {
         admin
     })
 });
+exports.getbyemail = catchAsyncError(async (req, res) => {
+    const admin = await Admin.findOne({ email: req.body.email });
+    const reseller = await Reseller.findOne({ email: req.body.email });
+    const customer = await Customer.findOne({ email: req.body.email });
+    if (admin) {
+        res.status(200).json({
+            success: true,
+            message: "admin present",
+            role: "admin",
 
+        })
+    }
+    else if (reseller) {
+        res.status(200).json({
+            success: true,
+            message: "reseller present",
+            role: "reseller"
+        })
+    }
+    else if (customer) {
+        res.status(200).json({
+            success: true,
+            message: "customer present",
+            role: "customer"
+        })
+    }
+    else {
+        res.status(200).json({
+            success: false,
+            message: "email not present"
+        });
+    }
+})
 
 // update Reseller Profile
 exports.updateProfileReseller = catchAsyncError(async (req, res, next) => {

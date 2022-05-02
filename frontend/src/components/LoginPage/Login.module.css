@@ -1,0 +1,46 @@
+.Loginpage{
+    /* display: block; */
+    width: 40%;
+    text-align: center;
+    float: left;
+    height: 100%;
+    /* background-color: black; */
+}
+.Image{
+    background-color: aquamarine;
+    float: right;
+    width: 40%;
+    height: 900px;
+    
+    /* display: block; */
+}
+.Box{
+    
+    text-align: left;
+}
+.Container{
+    margin-top: 40px;
+    /* border: 2px solid red; */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    
+}
+.Heading{
+    margin-left: 20%;
+    color: #42c2ff;
+    padding-top: 20%;
+}
+.Input::placeholder{
+    color: #fff;
+}
+.Input{
+    border: none;
+    background-color: #42c2ff;
+    
+    padding: 10px 20px;
+    border-radius: 10px;
+    margin-bottom: 20px;
+    width: 300px;
+}

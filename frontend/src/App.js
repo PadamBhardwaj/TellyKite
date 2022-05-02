@@ -1,12 +1,17 @@
 import './App.css';
 import Login from './components/LoginPage/Login';
+import { Provider } from "react-redux"
 import { BrowserRouter as Router, Route, Switch, Redirect } from "react-router-dom";
-function App() {
+import store from './store';
+function App({ history }) {
   return (
     <>
-      <Switch>
+      <Provider store={store}>
+        <Login />
+        {/* <Switch>
         <Route exact path='/' component={Login} />
-      </Switch>
+      </Switch> */}
+      </Provider>
     </>
   );
 }

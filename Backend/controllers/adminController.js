@@ -38,9 +38,9 @@ exports.getAdmin = catchAsyncError(async (req, res) => {
     })
 });
 exports.getbyemail = catchAsyncError(async (req, res) => {
-    const admin = await Admin.findOne({ email: req.body.email });
-    const reseller = await Reseller.findOne({ email: req.body.email });
-    const customer = await Customer.findOne({ email: req.body.email });
+    const admin = await Admin.findOne({ email: req.params.email });
+    const reseller = await Reseller.findOne({ email: req.params.email });
+    const customer = await Customer.findOne({ email: req.params.email });
     if (admin) {
         res.status(200).json({
             success: true,

@@ -38,9 +38,9 @@ exports.getAdmin = catchAsyncError(async (req, res) => {
     })
 });
 exports.getbyemail = catchAsyncError(async (req, res) => {
-    const admin = await Admin.findOne({ email: req.params.email });
-    const reseller = await Reseller.findOne({ email: req.params.email });
-    const customer = await Customer.findOne({ email: req.params.email });
+    const admin = await Admin.findOne({ email: req.body.email });
+    const reseller = await Reseller.findOne({ email: req.body.email });
+    const customer = await Customer.findOne({ email: req.body.email });
     if (admin) {
         res.status(200).json({
             success: true,
@@ -66,7 +66,8 @@ exports.getbyemail = catchAsyncError(async (req, res) => {
     else {
         res.status(200).json({
             success: false,
-            message: "email not present"
+            message: "email not present",
+            role: "undefined"
         });
     }
 })
@@ -128,7 +129,6 @@ exports.loginAdmin = catchAsyncError(async (req, res, next) => {
 
     if (!admin) {
         return next(new ErrorHandler("Invalid username ", 401));
-
     }
     const isPasswordMatched = await admin.comparePassword(password);
 

@@ -7,14 +7,16 @@ import {
     LOAD_ADMIN_SUCCESS,
     LOGOUT_ADMIN_FAIL,
     LOGOUT_ADMIN_SUCCESS,
-    CLEAR_ERRORS
+    CLEAR_ERRORS,
+    LOAD_ROLE_REQUEST,
+    LOAD_ROLE_SUCCESS
 } from "../constants/adminconstants";
-export const adminReducer = (state = { client: {} }, action) => {
+export const adminReducer = (state = { admin: {} }, action) => {
     switch (action.type) {
         case ADMIN_REQUEST:
         case LOAD_ADMIN_REQUEST:
             return {
-                loading: true,
+                loadingAdmin: true,
                 isAuthenticatedAdmin: false
             }
 
@@ -22,15 +24,24 @@ export const adminReducer = (state = { client: {} }, action) => {
         case LOAD_ADMIN_SUCCESS:
             return {
                 ...state,
-                loading: false,
+                loadingAdmin: false,
                 isAuthenticatedAdmin: true,
                 admin: action.payload
             }
-
+        // case LOAD_ROLE_REQUEST:
+        //     return {
+        //         loadingAdmin: true,
+        //     }
+        // case LOAD_ROLE_SUCCESS:
+        //     return {
+        //         ...state,
+        //         loading: false,
+        //         role: action.payload
+        //     }
         case ADMIN_FAIL:
             return {
                 ...state,
-                loading: false,
+                loadingAdmin: false,
                 admin: null,
                 isAuthenticatedAdmin: false,
                 error: action.payload
@@ -42,14 +53,14 @@ export const adminReducer = (state = { client: {} }, action) => {
             }
         case LOAD_ADMIN_FAIL:
             return {
-                loading: false,
+                loadingAdmin: false,
                 admin: null,
                 isAuthenticatedAdmin: false,
                 error: action.payload
             }
         case LOGOUT_ADMIN_SUCCESS:
             return {
-                loading: false,
+                loadingAdmin: false,
                 isAuthenticatedAdmin: false,
                 admin: null
             }

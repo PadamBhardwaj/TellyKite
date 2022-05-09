@@ -1,4 +1,10 @@
-import { RESELLER_FAIL, RESELLER_REQUEST, RESELLER_SUCCESS, CLEAR_ERRORS, LOAD_RESELLER_FAIL, LOAD_RESELLER_REQUEST, LOAD_RESELLER_SUCCESS, LOGOUT_RESELLER_FAIL, LOGOUT_RESELLER_SUCCESS } from "../constants/resellerconstants"
+import {
+    RESELLER_FAIL, RESELLER_REQUEST, RESELLER_SUCCESS, CLEAR_ERRORS,
+    ADD_RESELLER_FAIL,
+    ADD_RESELLER_REQUEST,
+    ADD_RESELLER_SUCCESS,
+    LOAD_RESELLER_FAIL, LOAD_RESELLER_REQUEST, LOAD_RESELLER_SUCCESS, LOGOUT_RESELLER_FAIL, LOGOUT_RESELLER_SUCCESS
+} from "../constants/resellerconstants"
 import axios from "axios";
 export const resellerLogin = (email, password) => async (dispatch) => {
     try {
@@ -24,7 +30,27 @@ export const resellerLogout = () => async (dispatch) => {
     }
 
 };
+export const createReseller = (reseller) => async (dispatch) => {
+    try {
+        dispatch({ type: ADD_RESELLER_REQUEST });
+        const config = {
+            headers: {
+                "content-Type": "application/json",
 
+            },
+        };
+        const { data } = await axios.post("/api/reseller/register", reseller, config);
+        dispatch({
+            type: ADD_RESELLER_SUCCESS, payload: data
+        });
+    } catch (error) {
+        dispatch({
+            type: ADD_RESELLER_FAIL,
+            payload: error.response.data.message
+        })
+
+    }
+}
 export const clearErrors = () => async (dispatch) => {
     dispatch({
         type: CLEAR_ERRORS

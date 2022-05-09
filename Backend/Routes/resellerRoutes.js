@@ -4,7 +4,7 @@ const { loginReseller, logout, getReseller, getCustomersOfReseller, registerrese
 const router = express.Router()
 const { authRole, isAuthenticatedReseller, isAuthenticatedAdmin } = require("../middleware/auth")
 router.route("/reseller").get(isAuthenticatedReseller, getReseller);
-router.route("/reseller/register").post(isAuthenticatedAdmin, authRole("admin"), registerreseller);
+router.route("/reseller/register").post(isAuthenticatedAdmin, registerreseller);
 router.route("/reseller/login").post(loginReseller);
 router.route("/reseller/getcustomers").get(isAuthenticatedReseller, getCustomersOfReseller);
 router.route("/reseller/logout").get(logout);

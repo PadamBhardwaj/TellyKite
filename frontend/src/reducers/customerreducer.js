@@ -7,6 +7,9 @@ import {
     LOAD_CUSTOMER_SUCCESS,
     LOGOUT_CUSTOMER_FAIL,
     LOGOUT_CUSTOMER_SUCCESS,
+    ADD_CUSTOMER_FAIL,
+    ADD_CUSTOMER_REQUEST,
+    ADD_CUSTOMER_SUCCESS,
     CLEAR_ERRORS
 } from "../constants/customerconstants";
 export const customerReducer = (state = { customer: {} }, action) => {
@@ -14,7 +17,7 @@ export const customerReducer = (state = { customer: {} }, action) => {
         case CUSTOMER_REQUEST:
         case LOAD_CUSTOMER_REQUEST:
             return {
-                loadingReseller: true,
+                loadingCustomer: true,
                 isAuthenticatedCustomer: false
             }
 
@@ -22,7 +25,7 @@ export const customerReducer = (state = { customer: {} }, action) => {
         case LOAD_CUSTOMER_SUCCESS:
             return {
                 ...state,
-                loadingReseller: false,
+                loadingCustomer: false,
                 isAuthenticatedCustomer: true,
                 customer: action.payload
             }
@@ -52,6 +55,23 @@ export const customerReducer = (state = { customer: {} }, action) => {
                 loadingCustomer: false,
                 isAuthenticatedCustomer: false,
                 customer: null
+            }
+        case ADD_CUSTOMER_REQUEST:
+            return {
+                ...state,
+                loadingCustomer: true
+            }
+        case ADD_CUSTOMER_SUCCESS:
+            return {
+                loadingCustomer: false,
+                success: true,
+                customer: action.payload
+            }
+        case ADD_CUSTOMER_FAIL:
+            return {
+                ...state,
+                loadingCustomer: false,
+                error: action.payload
             }
         default:
             return state;

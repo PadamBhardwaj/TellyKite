@@ -44,3 +44,18 @@
     margin-bottom: 20px;
     width: 300px;
 }
+.submitbtn{
+    background-color: #42c2ff;
+    border: none;
+    width: 340px;
+    padding: 10px 20px ;
+    border-radius: 10px;
+    margin-bottom: 20px;
+    /* padding: left 10px; ; */
+    color: #fff;
+    margin: 20px;
+
+    text-align: center;
+    font-size: large;
+    font-weight: 600;
+}

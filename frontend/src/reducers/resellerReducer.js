@@ -7,7 +7,10 @@ import {
     LOAD_RESELLER_SUCCESS,
     LOGOUT_RESELLER_FAIL,
     LOGOUT_RESELLER_SUCCESS,
-    CLEAR_ERRORS
+    CLEAR_ERRORS,
+    ADD_RESELLER_FAIL,
+    ADD_RESELLER_REQUEST,
+    ADD_RESELLER_SUCCESS
 } from "../constants/resellerconstants";
 export const resellerReducer = (state = { reseller: {} }, action) => {
     switch (action.type) {
@@ -52,6 +55,23 @@ export const resellerReducer = (state = { reseller: {} }, action) => {
                 loadingReseller: false,
                 isAuthenticatedReseller: false,
                 reseller: null
+            }
+        case ADD_RESELLER_REQUEST:
+            return {
+                ...state,
+                loadingReseller: true
+            }
+        case ADD_RESELLER_SUCCESS:
+            return {
+                loadingReseller: false,
+                success: true,
+                reseller: action.payload
+            }
+        case ADD_RESELLER_FAIL:
+            return {
+                ...state,
+                loadingReseller: false,
+                error: action.payload
             }
         default:
             return state;

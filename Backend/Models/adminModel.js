@@ -47,9 +47,9 @@ adminSchema.methods.getJWTToken = function () {
 }
 //compare password
 adminSchema.methods.comparePassword = async function (enteredPassword) {
-    console.log(bcrypt.compare(enteredPassword, this.password));
+    // console.log(bcrypt.compare(enteredPassword, this.password));
     const bool = await bcrypt.compare(enteredPassword, this.password);
-    console.log(bool);
+    // console.log(bool);
     return bool;
 }
 // Generating Password Reset Token

@@ -64,6 +64,12 @@ export const adminReducer = (state = { admin: {} }, action) => {
                 isAuthenticatedAdmin: false,
                 admin: null
             }
+        case LOGOUT_ADMIN_FAIL:
+            return {
+                loadingAdmin: false,
+                isAuthenticatedAdmin: false,
+                admin: null
+            }
         default:
             return state;
     }

@@ -1,0 +1,33 @@
+.Links{
+    background-color:#effffd;
+    /* min-width: 50px; */
+    /* max-width: 50%; */
+    /* display: block; */
+    /* max-width :20%; */
+   
+
+}
+.Link{
+    padding: 1%;
+
+
+}
+
+.Font{
+    padding-right: 0.5%;
+}
+.Text{
+    padding: 0.5%;
+    text-decoration: none;
+    color: #003f5c;
+}
+
+@media only screen and (max-width:768px) {
+    .Links{
+        width: auto;
+
+    }
+    .Link{
+        padding: 5%;
+    }
+}

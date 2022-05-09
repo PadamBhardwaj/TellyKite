@@ -40,12 +40,12 @@ const customerSchema = new mongoose.Schema({
         minlength: [6, 'min length of password should be 6'],
         select: false
     },
-    Company: String,
-    Address: String,
-    Website: String,
-    Location: String,
-    Plan_type: String,
-    Tally_version: String,
+    company: String,
+    address: String,
+    website: String,
+    location: String,
+    plan_type: String,
+    Telly_version: String,
     Expiry: Date,
     TellyAccounts: [{
         tellyUsername: String,

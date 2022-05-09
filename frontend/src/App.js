@@ -12,6 +12,8 @@ import ProtectedRouteAdmin from "./components/ProtectdRoutes/adminprotectedroute
 // import { useSelector } from 'react-redux';
 // import store from './store';
 import { BrowserRouter as Router, Route, Switch, Redirect } from "react-router-dom";
+import { ResellerCreate } from './components/Forms/ResellerCreate/resellerform';
+import { CustomerCreate } from './components/Forms/customercreate/customercreate';
 
 
 function App({ history }) {
@@ -28,9 +30,12 @@ function App({ history }) {
 
           {/* <Login /> */}
           <Route exact path='/' component={Login} />
-          <Route exact path='/admin' component={(isAuthenticatedAdmin === true) && Admin} />
+          <Route path="/admin" component={(isAuthenticatedAdmin === true) && Admin} />
           <Route exact path='/reseller' component={(isAuthenticatedReseller === true) && Reseller} />
           <Route exact path='/customer' component={(isAuthenticatedCustomer === true) && Customer} />
+          {/* <Route exact path='/logout' component={Customer} /> */}
+          <Route exact path='/createreseller' component={(isAuthenticatedAdmin === true) && ResellerCreate} />
+          <Route exact path='/createcustomer' component={(isAuthenticatedAdmin === true) && CustomerCreate} />
         </Switch>
 
       </Router>

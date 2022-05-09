@@ -7,7 +7,10 @@ import {
     CLEAR_ERRORS,
     CUSTOMER_FAIL,
     CUSTOMER_REQUEST,
-    CUSTOMER_SUCCESS
+    CUSTOMER_SUCCESS,
+    ADD_CUSTOMER_FAIL,
+    ADD_CUSTOMER_REQUEST,
+    ADD_CUSTOMER_SUCCESS
 
 }
     from "../constants/customerconstants"
@@ -36,6 +39,27 @@ export const customerLogout = () => async (dispatch) => {
     }
 
 };
+export const createCustomer = (customer) => async (dispatch) => {
+    try {
+        dispatch({ type: ADD_CUSTOMER_REQUEST });
+        const config = {
+            headers: {
+                "content-Type": "application/json",
+
+            },
+        };
+        const { data } = await axios.post("/api/customer/register", customer, config);
+        dispatch({
+            type: ADD_CUSTOMER_SUCCESS, payload: data
+        });
+    } catch (error) {
+        dispatch({
+            type: ADD_CUSTOMER_FAIL,
+            payload: error.response.data.message
+        })
+
+    }
+}
 
 export const clearErrors = () => async (dispatch) => {
     dispatch({

@@ -35,7 +35,7 @@ export const loadReseller = () => async (dispatch) => {
 };
 export const resellerLogout = () => async (dispatch) => {
     try {
-        await axios.get(`http://localhost:4000/api/reseller/logout`);
+        await axios.get(`/api/reseller/logout`);
 
         dispatch({ type: LOGOUT_RESELLER_SUCCESS });
     } catch (error) {

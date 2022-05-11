@@ -84,7 +84,7 @@ exports.updateProfileReseller = catchAsyncError(async (req, res, next) => {
         telephoneNumber: req.body.telephoneNumber
     };
 
-    const reseller = await Reseller.findByIdAndUpdate(req.params.resellerId, newUserData, {
+    const reseller = await Reseller.findByIdAndUpdate(req.body.id, newUserData, {
         new: true,
         runValidators: true,
         useFindAndModify: false,
@@ -106,7 +106,7 @@ exports.updateProfileCustomer = catchAsyncError(async (req, res, next) => {
         telephoneNumber: req.body.telephoneNumber
     };
 
-    const customer = await Customer.findByIdAndUpdate(req.params.customerId, newUserData, {
+    const customer = await Customer.findByIdAndUpdate(req.body.id, newUserData, {
         new: true,
         runValidators: true,
         useFindAndModify: false,

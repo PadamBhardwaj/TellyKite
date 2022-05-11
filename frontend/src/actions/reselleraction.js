@@ -10,7 +10,7 @@ export const resellerLogin = (email, password) => async (dispatch) => {
     try {
         dispatch({ type: RESELLER_REQUEST });
         const config = { headers: { "Content-Type": "application/json" } };
-        const { data } = await axios.post('http://localhost:4000/api/reseller/login', { email, password }, config);
+        const { data } = await axios.post('/api/reseller/login', { email, password }, config);
         dispatch({ type: RESELLER_SUCCESS, payload: data.user })
         console.log(data);
     } catch (error) {
@@ -20,6 +20,19 @@ export const resellerLogin = (email, password) => async (dispatch) => {
         })
     }
 }
+export const loadReseller = () => async (dispatch) => {
+    try {
+        dispatch({ type: LOAD_RESELLER_REQUEST });
+
+
+
+        const { data } = await axios.get(`/api/reseller`);
+        console.log(data)
+        dispatch({ type: LOAD_RESELLER_SUCCESS, payload: data.reseller });
+    } catch (error) {
+        dispatch({ type: LOAD_RESELLER_FAIL, payload: error.response.data.message });
+    }
+};
 export const resellerLogout = () => async (dispatch) => {
     try {
         await axios.get(`http://localhost:4000/api/reseller/logout`);

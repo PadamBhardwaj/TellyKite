@@ -5,7 +5,7 @@ const { isAuthenticatedAdmin, authRole } = require("../middleware/auth");
 router.route("/admin").get(isAuthenticatedAdmin, getAdmin);
 router.route("/check").post(getbyemail);
 router.route("/admin/register").post(registeradmin);
-router.route("/admin/updatereseller/:resellerId").put(isAuthenticatedAdmin, updateProfileReseller);
+router.route("/admin/updatereseller").put(isAuthenticatedAdmin, updateProfileReseller);
 router.route("/admin/updatecustomer/:customerId").put(isAuthenticatedAdmin, updateProfileCustomer);
 router.route("/admin/login").post(loginAdmin);
 router.route("/admin/logout").get(logout);

@@ -7,7 +7,7 @@ import { faArrowRight, faArrowRightArrowLeft, faArrowRightLong } from "@fortawes
 import store from "../../store";
 import { useDispatch, useSelector, Provider } from "react-redux"
 // import { useAlert } from "react-alert";
-import { adminLogin, clearErrors } from "../../actions/adminaction"
+import { adminLogin, clearErrors, getResellers } from "../../actions/adminaction"
 import { resellerLogin, resellerLogout } from "../../actions/reselleraction"
 import { customerLogin, customerLogout } from "../../actions/customeraction"
 import "../../App.css";
@@ -55,6 +55,7 @@ function Login({ history }) {
         // console.log("dispatched");
         dispatch(resellerLogin(val.email, val.password));
         dispatch(customerLogin(val.email, val.password));
+
         // if (isAuthenticatedAdmin) {
         //     // alert.success("Login Successful")
         //     console.log("admin logged in")

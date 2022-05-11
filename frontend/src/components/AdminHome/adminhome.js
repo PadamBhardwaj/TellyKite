@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 import Styles from "./adminhome.module.css"
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faArrowRightFromBracket, faCirclePlus, faP, faPen, faPencil } from "@fortawesome/free-solid-svg-icons"
-import { logoutAdmin } from "../../actions/adminaction"
+import { getResellers, logoutAdmin, getCustomers } from "../../actions/adminaction"
 // import { faCircleCheck, faCirclePlay } from "@fortawesome/free-regular-svg-icons"
 
 import { useDispatch, useSelector } from "react-redux"
@@ -20,7 +20,10 @@ export const Admin = ({ history }) => {
             console.log("admin home returning")
             history.push("/");
         }
-    }, [isAuthenticatedAdmin]);
+        dispatch(getResellers());
+        dispatch(getCustomers());
+
+    }, [isAuthenticatedAdmin, getCustomers, getResellers, dispatch]);
     function handleClick() {
         dispatch(logoutAdmin());
         window.location = "/"; // THIS works

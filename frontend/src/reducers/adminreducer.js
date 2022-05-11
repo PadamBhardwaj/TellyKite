@@ -9,7 +9,19 @@ import {
     LOGOUT_ADMIN_SUCCESS,
     CLEAR_ERRORS,
     LOAD_ROLE_REQUEST,
-    LOAD_ROLE_SUCCESS
+    LOAD_ROLE_SUCCESS,
+    ALL_RESELLER_FAIL,
+    ALL_RESELLER_REQUEST,
+    ALL_RESELLER_SUCCESS,
+    ALL_CUSTOMER_FAIL,
+    ALL_CUSTOMER_REQUEST,
+    ALL_CUSTOMER_SUCCESS,
+    UPDATE_RESELLER_FAIL,
+    UPDATE_RESELLER_REQUEST,
+    UPDATE_RESELLER_SUCCESS,
+    UPDATE_CUSTOMER_FAIL,
+    UPDATE_CUSTOMER_SUCCESS,
+    UPDATE_CUSTOMER_REQUEST
 } from "../constants/adminconstants";
 export const adminReducer = (state = { admin: {} }, action) => {
     switch (action.type) {
@@ -28,16 +40,7 @@ export const adminReducer = (state = { admin: {} }, action) => {
                 isAuthenticatedAdmin: true,
                 admin: action.payload
             }
-        // case LOAD_ROLE_REQUEST:
-        //     return {
-        //         loadingAdmin: true,
-        //     }
-        // case LOAD_ROLE_SUCCESS:
-        //     return {
-        //         ...state,
-        //         loading: false,
-        //         role: action.payload
-        //     }
+
         case ADMIN_FAIL:
             return {
                 ...state,
@@ -70,7 +73,72 @@ export const adminReducer = (state = { admin: {} }, action) => {
                 isAuthenticatedAdmin: false,
                 admin: null
             }
+        case UPDATE_RESELLER_FAIL:
+        case UPDATE_CUSTOMER_FAIL:
+            return {
+                ...state,
+                loading: false,
+                error: action.payload,
+            }
+        case UPDATE_RESELLER_SUCCESS:
+        case UPDATE_CUSTOMER_SUCCESS:
+            return {
+                ...state,
+                loading: false,
+                isUpdated: action.payload,
+            };
+        case UPDATE_RESELLER_REQUEST:
+        case UPDATE_CUSTOMER_REQUEST:
+
+            return {
+                ...state,
+                error: action.payload
+            }
         default:
             return state;
+    }
+}
+export const resellersReducer = (state = { resellers: {} }, action) => {
+    switch (action.type) {
+        case ALL_RESELLER_SUCCESS:
+            return {
+                ...state,
+                loading: false,
+                resellers: action.payload.reseller,
+            }
+        case ALL_RESELLER_REQUEST:
+            return {
+                loading: true
+            }
+        case ALL_RESELLER_FAIL:
+            return {
+                loading: false,
+                resellers: null,
+                error: action.payload
+            }
+        default:
+            return state
+    }
+}
+export const custoersReducer = (state = { customers: {} }, action) => {
+    switch (action.type) {
+        case ALL_CUSTOMER_SUCCESS:
+            return {
+                ...state,
+                loading: false,
+                customers: action.payload.customer,
+            }
+        case ALL_CUSTOMER_REQUEST:
+            return {
+                loading: true
+            }
+        case ALL_CUSTOMER_FAIL:
+            return {
+                loading: false,
+                customers: null,
+                error: action.payload
+            }
+        default:
+            return state
     }
 }

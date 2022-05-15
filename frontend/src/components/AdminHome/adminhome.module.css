@@ -1,33 +1,96 @@
-.Links{
-    background-color:#effffd;
-    /* min-width: 50px; */
+.Links {
+    background-color: #effffd;
+    min-width: 50px;
+    box-sizing: border-box;
+    width: 20%;
+    float: left;
+    margin-top: 1%;
+
     /* max-width: 50%; */
     /* display: block; */
     /* max-width :20%; */
-   
+    margin-left: 3%;
 
 }
-.Link{
+
+.Link {
+    padding: 10%;
+    position: relative;
+
+
+}
+
+.Ranks {
+    background-color: #0684eb;
+    /* display: inline-block; */
+    color: #fff;
+    border-radius: 2%;
+    /* width: 70%; */
+    /* box-sizing: border-box; */
+    /* float: centre; */
+    margin: 1%;
     padding: 1%;
-
-
 }
 
-.Font{
+h4 {
+    text-align: center;
+}
+
+hr {
+    border-top: 1px dashed white;
+}
+
+.Font {
     padding-right: 0.5%;
 }
-.Text{
+
+.Coltwo {
+    display: inline-block;
+    margin-top: 1%;
+
+}
+
+.Text {
     padding: 0.5%;
     text-decoration: none;
     color: #003f5c;
 }
 
+.Data {
+    background-color: #effffd;
+    /* box-sizing: border-box; */
+    /* float: right; */
+    display: inline-block;
+    margin: 1%;
+    /* height: 20%; */
+    /* padding: 3%; */
+
+}
+
+h5 {
+    display: inline-block;
+    padding: 1%;
+}
+
 @media only screen and (max-width:768px) {
-    .Links{
-        width: auto;
+    .Links {
+        background-color: #effffd;
+        /* min-width: 50px; */
+        box-sizing: border-box;
+        width: 100%;
+        float: left;
+
+
+        /* max-width: 50%; */
+        /* display: block; */
+        /* max-width :20%; */
+        margin-left: 1%;
+
 
     }
-    .Link{
-        padding: 5%;
+
+    .Link {
+        padding: 6%;
+        /* position: relative; */
     }
 }

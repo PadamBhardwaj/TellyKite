@@ -21,7 +21,13 @@ import {
     UPDATE_RESELLER_SUCCESS,
     UPDATE_CUSTOMER_REQUEST,
     UPDATE_CUSTOMER_SUCCESS,
-    UPDATE_CUSTOMER_FAIL
+    UPDATE_CUSTOMER_FAIL,
+    TOP_RESELLERS_FAIL,
+    TOP_RESELLERS_REQUEST,
+    TOP_RESELLERS_SUCCESS,
+    TOTAL_FAIL,
+    TOTAL_REQUEST,
+    TOTAL_SUCCESS
 } from "../constants/adminconstants"
 import axios from "axios";
 export const adminLogin = (email, password) => async (dispatch) => {
@@ -46,12 +52,25 @@ export const loadAdmin = () => async (dispatch) => {
 
 
         const { data } = await axios.get(`/api/admin`);
-        console.log(data)
-        dispatch({ type: LOAD_ADMIN_SUCCESS, payload: data.admin });
+        // const { total } = await axios.get(`/api/admin/total`);
+        // console.log(total)
+        dispatch({ type: LOAD_ADMIN_SUCCESS, payload: data });
     } catch (error) {
         dispatch({ type: LOAD_ADMIN_FAIL, payload: error.response.data.message });
     }
 };
+// export const total = () => async (dispatch) => {
+//     try {
+//         dispatch({ type: TOTAL_REQUEST })
+//         const { data } = await axios.get(`api/admin/total`);
+//         dispatch({
+//             type: TOTAL_SUCCESS,
+//             payload: data
+//         })
+//     } catch (error) {
+//         dispatch({ type: TOTAL_FAIL, payload: error.response.data.message })
+//     }
+// }
 export const getResellers = () => async (dispatch) => {
     try {
 
@@ -91,6 +110,25 @@ export const getCustomers = () => async (dispatch) => {
         dispatch({
             type: ALL_CUSTOMER_FAIL,
             payload: error.response.data.message
+        })
+    }
+}
+export const getTopResellers = () => async (dispatch) => {
+    try {
+        dispatch({
+            type: TOP_RESELLERS_REQUEST
+        });
+        const { data } = await axios.get(`/api/admin/topfivereseller`)
+        console.log(data)
+        dispatch({
+            type: TOP_RESELLERS_SUCCESS,
+            payload: data
+        })
+
+    } catch (error) {
+        dispatch({
+            type: TOP_RESELLERS_FAIL,
+            payload: error
         })
     }
 }

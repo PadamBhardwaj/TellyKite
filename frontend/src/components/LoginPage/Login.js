@@ -7,7 +7,7 @@ import { faArrowRight, faArrowRightArrowLeft, faArrowRightLong } from "@fortawes
 import store from "../../store";
 import { useDispatch, useSelector, Provider } from "react-redux"
 // import { useAlert } from "react-alert";
-import { adminLogin, clearErrors, getResellers } from "../../actions/adminaction"
+import { adminLogin, clearErrors, getResellers, getTopResellers } from "../../actions/adminaction"
 import { resellerLogin, resellerLogout } from "../../actions/reselleraction"
 import { customerLogin, customerLogout } from "../../actions/customeraction"
 import "../../App.css";
@@ -26,11 +26,13 @@ function Login({ history }) {
     const { reseller, isAuthenticatedReseller, errorReseller } = useSelector(state => state.reseller);
     const { customer, isAuthenticatedCustomer, errorCustomer } = useSelector(state => state.customer);
     useEffect(() => {
+        dispatch(getTopResellers());
         if (errorAdmin) {
             alert.error("Invalid Email or Password")
             dispatch(clearErrors())
         }
         if ((isAuthenticatedAdmin === true)) {
+
             console.log("before push")
             history.push("/admin")
             console.log("after push")

@@ -32,45 +32,54 @@ exports.getAdmin = catchAsyncError(async (req, res) => {
     if (!admin) {
         res.status(400);
     }
+    const resellerCount = await Reseller.count();
+    const customerCount = await Customer.count();
+    const directCustomerCount = await Customer.count({ mode: "direct" })
+    const nonDirectCustomerCount = await Customer.count({ mode: { $ne: "direct" } })
+
     res.status(200).json({
         success: true,
+        resellerCount,
+        customerCount,
+        directCustomerCount,
+        nonDirectCustomerCount,
         admin
     })
 });
-exports.getbyemail = catchAsyncError(async (req, res) => {
-    const admin = await Admin.findOne({ email: req.body.email });
-    const reseller = await Reseller.findOne({ email: req.body.email });
-    const customer = await Customer.findOne({ email: req.body.email });
-    if (admin) {
-        res.status(200).json({
-            success: true,
-            message: "admin present",
-            role: "admin",
+// exports.getbyemail = catchAsyncError(async (req, res) => {
+//     const admin = await Admin.findOne({ email: req.body.email });
+//     const reseller = await Reseller.findOne({ email: req.body.email });
+//     const customer = await Customer.findOne({ email: req.body.email });
+//     if (admin) {
+//         res.status(200).json({
+//             success: true,
+//             message: "admin present",
+//             role: "admin",
 
-        })
-    }
-    else if (reseller) {
-        res.status(200).json({
-            success: true,
-            message: "reseller present",
-            role: "reseller"
-        })
-    }
-    else if (customer) {
-        res.status(200).json({
-            success: true,
-            message: "customer present",
-            role: "customer"
-        })
-    }
-    else {
-        res.status(200).json({
-            success: false,
-            message: "email not present",
-            role: "undefined"
-        });
-    }
-})
+//         })
+//     }
+//     else if (reseller) {
+//         res.status(200).json({
+//             success: true,
+//             message: "reseller present",
+//             role: "reseller"
+//         })
+//     }
+//     else if (customer) {
+//         res.status(200).json({
+//             success: true,
+//             message: "customer present",
+//             role: "customer"
+//         })
+//     }
+//     else {
+//         res.status(200).json({
+//             success: false,
+//             message: "email not present",
+//             role: "undefined"
+//         });
+//     }
+// })
 
 // update Reseller Profile
 exports.updateProfileReseller = catchAsyncError(async (req, res, next) => {
@@ -136,11 +145,37 @@ exports.loginAdmin = catchAsyncError(async (req, res, next) => {
         return next(new ErrorHandler("Invalid  password", 401));
 
     }
-
+    const resellerCount = await Reseller.count();
+    const customerCount = await Customer.count();
+    const directCustomerCount = await Customer.count({ mode: "direct" })
+    const nonDirectCustomerCount = await Customer.count({ mode: { $ne: "direct" } })
     sendToken(admin, 200, res);
+
+    // res.status(200).json({
+    //     success: true,
+    //     resellerCount,
+    //     customerCount,
+    //     directCustomerCount,
+    //     nonDirectCustomerCount
+    // })
+
 }
 )
+//total resellers and customers
+exports.total = catchAsyncError(async (req, res, next) => {
+    const resellerCount = await Reseller.count();
+    const customerCount = await Customer.count();
+    const directCustomerCount = await Customer.count({ mode: "direct" })
+    const nonDirectCustomerCount = await Customer.count({ mode: { $ne: "direct" } })
 
+    res.status(200).json({
+        success: true,
+        resellerCount,
+        customerCount,
+        directCustomerCount,
+        nonDirectCustomerCount
+    })
+})
 //logout client
 exports.logout = catchAsyncError(async (req, res, next) => {
     res.cookie("token", null, {
@@ -235,6 +270,14 @@ exports.topReseller = catchAsyncError(async (req, res, next) => {
     res.status(200).json({
         success: true,
         reseller
+    });
+});
+//top 5 resellers
+exports.topFiveResellers = catchAsyncError(async (req, res, next) => {
+    const topResellers = await Reseller.find().sort(' -customerCount').limit(5);
+    res.status(200).json({
+        success: true,
+        topResellers
     });
 });
 // Get all Reselleres

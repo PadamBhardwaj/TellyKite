@@ -9,12 +9,13 @@ global.crypto = require("crypto");
 const sendEmail = require("../utils/sendEmail");
 //register reseller
 exports.registerreseller = catchAsyncError(async (req, res, next) => {
-    const { name, email, password, username } = req.body;
+    const { name, email, password, username, customerCount } = req.body;
     const reseller = await Reseller.create({
         name,
         email,
         password,
-        username
+        username,
+        customerCount
     })
     console.log(req.body);
     // console.log("Controller")

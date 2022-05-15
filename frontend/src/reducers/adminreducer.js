@@ -21,7 +21,10 @@ import {
     UPDATE_RESELLER_SUCCESS,
     UPDATE_CUSTOMER_FAIL,
     UPDATE_CUSTOMER_SUCCESS,
-    UPDATE_CUSTOMER_REQUEST
+    UPDATE_CUSTOMER_REQUEST,
+    TOP_RESELLERS_FAIL,
+    TOP_RESELLERS_REQUEST,
+    TOP_RESELLERS_SUCCESS
 } from "../constants/adminconstants";
 export const adminReducer = (state = { admin: {} }, action) => {
     switch (action.type) {
@@ -120,7 +123,29 @@ export const resellersReducer = (state = { resellers: {} }, action) => {
             return state
     }
 }
-export const custoersReducer = (state = { customers: {} }, action) => {
+export const topResellersReducer = (state = { topResellers: {} }, action) => {
+    switch (action.type) {
+        case TOP_RESELLERS_FAIL:
+            return {
+                loading: false,
+                topResellers: null,
+                error: action.payload
+            }
+        case TOP_RESELLERS_REQUEST:
+            return {
+                loading: true
+            }
+        case TOP_RESELLERS_SUCCESS:
+            return {
+                ...state,
+                loading: false,
+                topResellers: action.payload.topResellers
+            }
+        default:
+            return state
+    }
+}
+export const customersReducer = (state = { customers: {} }, action) => {
     switch (action.type) {
         case ALL_CUSTOMER_SUCCESS:
             return {

@@ -27,7 +27,11 @@ import {
     TOP_RESELLERS_SUCCESS,
     TOTAL_FAIL,
     TOTAL_REQUEST,
-    TOTAL_SUCCESS
+    TOTAL_SUCCESS,
+    EXPITY_CUSTOMERS_FAIL,
+    EXPITY_CUSTOMERS_REQUEST,
+    EXPITY_CUSTOMERS_SUCCESS
+
 } from "../constants/adminconstants"
 import axios from "axios";
 export const adminLogin = (email, password) => async (dispatch) => {
@@ -59,18 +63,18 @@ export const loadAdmin = () => async (dispatch) => {
         dispatch({ type: LOAD_ADMIN_FAIL, payload: error.response.data.message });
     }
 };
-// export const total = () => async (dispatch) => {
-//     try {
-//         dispatch({ type: TOTAL_REQUEST })
-//         const { data } = await axios.get(`api/admin/total`);
-//         dispatch({
-//             type: TOTAL_SUCCESS,
-//             payload: data
-//         })
-//     } catch (error) {
-//         dispatch({ type: TOTAL_FAIL, payload: error.response.data.message })
-//     }
-// }
+export const total = () => async (dispatch) => {
+    try {
+        dispatch({ type: TOTAL_REQUEST })
+        const { data } = await axios.get(`api/admin/total`);
+        dispatch({
+            type: TOTAL_SUCCESS,
+            payload: data
+        })
+    } catch (error) {
+        dispatch({ type: TOTAL_FAIL, payload: error.response.data.message })
+    }
+}
 export const getResellers = () => async (dispatch) => {
     try {
 
@@ -119,7 +123,7 @@ export const getTopResellers = () => async (dispatch) => {
             type: TOP_RESELLERS_REQUEST
         });
         const { data } = await axios.get(`/api/admin/topfivereseller`)
-        console.log(data)
+        // console.log(data)
         dispatch({
             type: TOP_RESELLERS_SUCCESS,
             payload: data
@@ -174,6 +178,27 @@ export const updateCustomer = (customer) => async (dispatch) => {
 
     }
 }
+export const getExpiryCustomers = (days) => async (dispatch) => {
+    try {
+        dispatch({ type: EXPITY_CUSTOMERS_REQUEST });
+        const config = {
+            headers: {
+                "content-Type": "application/json",
+            },
+        };
+        console.log(days)
+        const { data } = await axios.post(`/api/admin/expiry`, days, config);
+        dispatch({
+            type: EXPITY_CUSTOMERS_SUCCESS, payload: data
+        })
+    } catch (error) {
+        dispatch({
+            type: EXPITY_CUSTOMERS_FAIL,
+            payload: error.response.data.message
+        })
+    }
+}
+
 export const logoutAdmin = () => async (dispatch) => {
     try {
         await axios.get(`/api/admin/logout`);
@@ -184,7 +209,6 @@ export const logoutAdmin = () => async (dispatch) => {
     }
 
 };
-
 export const clearErrors = () => async (dispatch) => {
     dispatch({
         type: CLEAR_ERRORS

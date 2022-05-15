@@ -1,5 +1,5 @@
 const express = require("express");
-const { getAdmin, loginAdmin, getbyemail, logout, topReseller, forgotPassword, getAllCustomers, getAllResellers, updateProfileCustomer, updateProfileReseller, resetPassword, registeradmin, deleteCustomer, deleteReseller, topFiveResellers, total } = require("../controllers/adminController")
+const { getAdmin, loginAdmin, getbyemail, logout, topReseller, forgotPassword, getAllCustomers, getAllResellers, updateProfileCustomer, updateProfileReseller, resetPassword, registeradmin, deleteCustomer, deleteReseller, topFiveResellers, total, expiryfilter } = require("../controllers/adminController")
 const router = express.Router();
 const { isAuthenticatedAdmin, authRole } = require("../middleware/auth");
 router.route("/admin").get(isAuthenticatedAdmin, getAdmin);
@@ -14,8 +14,9 @@ router.route("/admin/topfivereseller").get(topFiveResellers);
 router.route("/admin/getallcustomers").get(isAuthenticatedAdmin, getAllCustomers);
 router.route("/admin/getallresellers").get(isAuthenticatedAdmin, getAllResellers);
 router.route("/password/forgot").post(forgotPassword);
-router.route("/admin/total").get(isAuthenticatedAdmin, total);
+router.route("/admin/total").get(total);
 router.route("/password/reset/:token").put(resetPassword);
 router.route("/admin/deletereseller/:resellerId").delete(isAuthenticatedAdmin, deleteReseller);
 router.route("/admin/deletecustomer/:customerId").delete(isAuthenticatedAdmin, deleteCustomer);
+router.route("/admin/expiry").post(expiryfilter);
 module.exports = router;

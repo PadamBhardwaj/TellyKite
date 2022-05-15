@@ -2,28 +2,29 @@ import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import Styles from "./adminhome.module.css"
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faArrowRightFromBracket, faCirclePlus, faP, faPen, faPencil } from "@fortawesome/free-solid-svg-icons"
-import { getResellers, logoutAdmin, getCustomers, getTopResellers } from "../../actions/adminaction"
+import { faArrowRightFromBracket, faCirclePlus, faP, faPen, faPencil, faPersonCircleQuestion } from "@fortawesome/free-solid-svg-icons"
+import { getResellers, logoutAdmin, getCustomers, getTopResellers, getExpiryCustomers } from "../../actions/adminaction"
 // import { faCircleCheck, faCirclePlay } from "@fortawesome/free-regular-svg-icons"
-
+import { ExpiringCustomer } from './ExpiringCustomer'
 import { useDispatch, useSelector } from "react-redux"
 import { Topreseller } from './Topreseller'
+// import { init } from 'express/lib/application'
 export const Admin = ({ history }) => {
     const dispatch = useDispatch()
-    const { admin, isAuthenticatedAdmin, errorAdmin, role }
+    const { admin, isAuthenticatedAdmin, errorAdmin }
         // customerCount,
         // directCustomerCount,
         // nonDirectCustomerCount } 
         = useSelector(state => state.admin);
-    const r = admin.resellerCount
-    const c = admin.customerCount
-    const d = admin.directCustomerCount
-    const n = admin.nonDirectCustomerCount
-    const { topResellers } = useSelector(state => state.topResellers);
+    const { resellerCount, nonDirectCustomerCount, directCustomerCount, customerCount } = useSelector(state => state.total)
     // if (!admin) {
     //     window.location.reload();
 
     // }
+
+    const { topResellers } = useSelector(state => state.topResellers);
+    // const { resellerCount, nonDirectCustomerCount, directCustomerCount, customerCount } = total.total;
+    const { expiringCustomers, loading } = useSelector(state => state.expiry)
     useEffect(() => {
         if (isAuthenticatedAdmin === false) {
             console.log("admin home returning")
@@ -42,8 +43,29 @@ export const Admin = ({ history }) => {
         // console.log(isAuthenticatedAdmin);
         // history.push('/');
     }
+    const initialval = {
+        day: 0
+    }
+    const [val, setVal] = useState(initialval);
+    const handleChange = (e) => {
+        setVal({ ...val, [e.target.name]: e.target.value })
+        // setVal()
+    }
+    function handleExpiry(e) {
+        // e.preventDefault();
+        const num = parseInt(val.day)
+        const data = {
+            days: num
+        }
+        dispatch(getExpiryCustomers(data));
+
+    }
     // const [arr, setarr] = useState([]);
 
+    const r = resellerCount
+    const c = customerCount
+    const d = directCustomerCount
+    const n = nonDirectCustomerCount
     return (
         <>
             <div className={Styles.Links}>
@@ -92,6 +114,18 @@ export const Admin = ({ history }) => {
 
                     {/* {resellers.map(reseller => <ResellerComponent name={reseller.name} username={reseller.username} />)} */}
 
+                </div>
+                <div>
+                    <p>Renews in:</p>
+                    {/* <form> */}
+                    <input name='day' value={val.day} onChange={handleChange} />
+                    <button type='submit' onClick={handleExpiry}>Find</button>
+                    {/* </form> */}
+                    <div>
+                        <h3>Customers:</h3>
+                        {(!loading && expiringCustomers) &&
+                            expiringCustomers.map((cust, index) => <ExpiringCustomer key={cust.id} num={index} name={cust.username} Expiry={cust.Expiry} />)}
+                    </div>
                 </div>
             </div>
         </>

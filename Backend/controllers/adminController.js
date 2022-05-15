@@ -32,17 +32,17 @@ exports.getAdmin = catchAsyncError(async (req, res) => {
     if (!admin) {
         res.status(400);
     }
-    const resellerCount = await Reseller.count();
-    const customerCount = await Customer.count();
-    const directCustomerCount = await Customer.count({ mode: "direct" })
-    const nonDirectCustomerCount = await Customer.count({ mode: { $ne: "direct" } })
+    // const resellerCount = await Reseller.count();
+    // const customerCount = await Customer.count();
+    // const directCustomerCount = await Customer.count({ mode: "direct" })
+    // const nonDirectCustomerCount = await Customer.count({ mode: { $ne: "direct" } })
 
     res.status(200).json({
         success: true,
-        resellerCount,
-        customerCount,
-        directCustomerCount,
-        nonDirectCustomerCount,
+        // resellerCount,
+        // customerCount,
+        // directCustomerCount,
+        // nonDirectCustomerCount,
         admin
     })
 });
@@ -145,10 +145,10 @@ exports.loginAdmin = catchAsyncError(async (req, res, next) => {
         return next(new ErrorHandler("Invalid  password", 401));
 
     }
-    const resellerCount = await Reseller.count();
-    const customerCount = await Customer.count();
-    const directCustomerCount = await Customer.count({ mode: "direct" })
-    const nonDirectCustomerCount = await Customer.count({ mode: { $ne: "direct" } })
+    // const resellerCount = await Reseller.count();
+    // const customerCount = await Customer.count();
+    // const directCustomerCount = await Customer.count({ mode: "direct" })
+    // const nonDirectCustomerCount = await Customer.count({ mode: { $ne: "direct" } })
     sendToken(admin, 200, res);
 
     // res.status(200).json({
@@ -332,3 +332,31 @@ exports.deleteCustomer = catchAsyncError(async (req, res, next) => {
         message: "Customer Deleted Successfully",
     });
 });
+//expiry filter
+exports.expiryfilter = catchAsyncError(async (req, res, next) => {
+    // const date=Data.now();
+    const { days } = req.body;
+    const today = new Date();
+    // console.log(days)
+
+    // console.log(Date())
+    const newdate = new Date(today.setDate(today.getDate() + days + 1))
+    // console.log(newdate)
+    const expiringCustomers = await Customer.find({
+        Expiry: { $lt: newdate }
+    })
+    // Expiry: {
+
+    // $gte: today
+    // $lt: today + days
+    // }
+    if (!expiringCustomers) {
+        return next(
+            new ErrorHandler(`No Customer found`)
+        );
+    }
+    res.status(200).json({
+        success: true,
+        expiringCustomers
+    })
+})

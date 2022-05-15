@@ -1,3 +1,4 @@
+import { faL } from "@fortawesome/free-solid-svg-icons";
 import {
     ADMIN_FAIL,
     ADMIN_REQUEST,
@@ -24,7 +25,13 @@ import {
     UPDATE_CUSTOMER_REQUEST,
     TOP_RESELLERS_FAIL,
     TOP_RESELLERS_REQUEST,
-    TOP_RESELLERS_SUCCESS
+    TOP_RESELLERS_SUCCESS,
+    TOTAL_REQUEST,
+    TOTAL_FAIL,
+    TOTAL_SUCCESS,
+    EXPITY_CUSTOMERS_FAIL,
+    EXPITY_CUSTOMERS_REQUEST,
+    EXPITY_CUSTOMERS_SUCCESS
 } from "../constants/adminconstants";
 export const adminReducer = (state = { admin: {} }, action) => {
     switch (action.type) {
@@ -118,6 +125,54 @@ export const resellersReducer = (state = { resellers: {} }, action) => {
                 loading: false,
                 resellers: null,
                 error: action.payload
+            }
+        default:
+            return state
+    }
+}
+export const totalReducer = (state = { total: {} }, action) => {
+    switch (action.type) {
+        case TOTAL_REQUEST:
+            return {
+                loading: true
+            }
+        case TOTAL_SUCCESS:
+            return {
+                ...state,
+                loading: false,
+                resellerCount: action.payload.resellerCount,
+                customerCount: action.payload.customerCount,
+                nonDirectCustomerCount: action.payload.nonDirectCustomerCount,
+                directCustomerCount: action.payload.directCustomerCount
+
+            }
+        case TOTAL_FAIL:
+            return {
+                loading: false,
+                total: null,
+                error: action.payload
+            }
+        default:
+            return state
+    }
+}
+export const expiryReducer = (state = { expiringCustomers: {} }, action) => {
+    switch (action.type) {
+        case EXPITY_CUSTOMERS_FAIL:
+            return {
+                loading: false,
+                expiringCustomers: null,
+                error: action.payload
+            }
+        case EXPITY_CUSTOMERS_SUCCESS:
+            return {
+                ...state,
+                loading: false,
+                expiringCustomers: action.payload.expiringCustomers
+            }
+        case EXPITY_CUSTOMERS_REQUEST:
+            return {
+                loading: true
             }
         default:
             return state

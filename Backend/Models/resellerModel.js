@@ -31,11 +31,12 @@ const resellerSchema = new mongoose.Schema({
         select: false
     },
     company: String,
-    website:String,
+    website: String,
     location: String,
     cell_No: Number,
     telephoneNumber: Number,
-    customerCount:Number
+    customerCount: Number,
+    TargetCustomer: Number
 
 });
 resellerSchema.pre("save", async function (next) {

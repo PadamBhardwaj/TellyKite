@@ -10,7 +10,10 @@ import {
     CLEAR_ERRORS,
     ADD_RESELLER_FAIL,
     ADD_RESELLER_REQUEST,
-    ADD_RESELLER_SUCCESS
+    ADD_RESELLER_SUCCESS,
+    ALL_CUSTOMERS_FAIL,
+    ALL_CUSTOMERS_REQUEST,
+    ALL_CUSTOMERS_SUCCESS
 } from "../constants/resellerconstants";
 export const resellerReducer = (state = { reseller: {} }, action) => {
     switch (action.type) {
@@ -72,6 +75,24 @@ export const resellerReducer = (state = { reseller: {} }, action) => {
                 ...state,
                 loadingReseller: false,
                 error: action.payload
+            }
+        case ALL_CUSTOMERS_REQUEST:
+            return {
+                ...state,
+                loading: true,
+            }
+        case ALL_CUSTOMERS_FAIL:
+            return {
+                ...state,
+                loading: false,
+                customers: null
+            }
+        case ALL_CUSTOMERS_SUCCESS:
+            return {
+                ...state,
+                loading: false,
+
+                customers: action.payload
             }
         default:
             return state;

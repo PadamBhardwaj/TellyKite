@@ -12,12 +12,17 @@ const sendEmail = require("../utils/sendEmail");
 
 // Register customer
 exports.registercustomer = catchAsyncError(async (req, res, next) => {
-    const { name, email, password, username } = req.body;
+    const { name, email, password, username, Telly_version, company, location, plan_type, address, cellno, telephone } = req.body;
     const customer = await Customer.create({
         name,
         email,
         password,
         username,
+        Telly_version,
+        location,
+        plan_type,
+        company,
+        address,
         mode: "direct"
     })
 

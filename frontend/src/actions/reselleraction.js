@@ -1,9 +1,19 @@
 import {
-    RESELLER_FAIL, RESELLER_REQUEST, RESELLER_SUCCESS, CLEAR_ERRORS,
+    RESELLER_FAIL,
+    RESELLER_REQUEST,
+    RESELLER_SUCCESS,
+    CLEAR_ERRORS,
     ADD_RESELLER_FAIL,
     ADD_RESELLER_REQUEST,
     ADD_RESELLER_SUCCESS,
-    LOAD_RESELLER_FAIL, LOAD_RESELLER_REQUEST, LOAD_RESELLER_SUCCESS, LOGOUT_RESELLER_FAIL, LOGOUT_RESELLER_SUCCESS
+    LOAD_RESELLER_FAIL,
+    LOAD_RESELLER_REQUEST,
+    LOAD_RESELLER_SUCCESS,
+    LOGOUT_RESELLER_FAIL,
+    LOGOUT_RESELLER_SUCCESS,
+    ALL_CUSTOMERS_FAIL,
+    ALL_CUSTOMERS_REQUEST,
+    ALL_CUSTOMERS_SUCCESS
 } from "../constants/resellerconstants"
 import axios from "axios";
 export const resellerLogin = (email, password) => async (dispatch) => {
@@ -17,6 +27,22 @@ export const resellerLogin = (email, password) => async (dispatch) => {
         dispatch({
             type: RESELLER_FAIL,
             payload: error
+        })
+    }
+}
+export const customersOfReseller = () => async (dispatch) => {
+    try {
+        dispatch({ type: ALL_CUSTOMERS_REQUEST });
+        const { data } = await axios.get(`/api/reseller/getcustomers`)
+        console.log(data);
+        dispatch({
+            type: ALL_CUSTOMERS_SUCCESS,
+            payload: data
+        })
+    } catch (error) {
+        dispatch({
+            type: ALL_CUSTOMERS_FAIL,
+            payload: error.reseller.data.message
         })
     }
 }

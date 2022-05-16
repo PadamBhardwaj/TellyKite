@@ -49,7 +49,8 @@ const customerSchema = new mongoose.Schema({
     Expiry: Date,
     TellyAccounts: [{
         tellyUsername: String,
-        tellyPassword: String
+        tellyPassword: String,
+        tellySerial: Number
     }]
 });
 customerSchema.pre("save", async function (next) {

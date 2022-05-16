@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 import Styles from "./adminhome.module.css"
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faArrowRightFromBracket, faCirclePlus, faP, faPen, faPencil, faPersonCircleQuestion } from "@fortawesome/free-solid-svg-icons"
-import { getResellers, logoutAdmin, getCustomers, getTopResellers, getExpiryCustomers } from "../../actions/adminaction"
+import { getResellers, logoutAdmin, getCustomers, getTopResellers, getExpiryCustomers, total } from "../../actions/adminaction"
 // import { faCircleCheck, faCirclePlay } from "@fortawesome/free-regular-svg-icons"
 import { ExpiringCustomer } from './ExpiringCustomer'
 import { useDispatch, useSelector } from "react-redux"
@@ -26,6 +26,8 @@ export const Admin = ({ history }) => {
     // const { resellerCount, nonDirectCustomerCount, directCustomerCount, customerCount } = total.total;
     const { expiringCustomers, loading } = useSelector(state => state.expiry)
     useEffect(() => {
+        dispatch(total())
+        dispatch(getTopResellers())
         if (isAuthenticatedAdmin === false) {
             console.log("admin home returning")
             history.push("/");

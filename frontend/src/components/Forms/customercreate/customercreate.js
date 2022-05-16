@@ -27,7 +27,7 @@ export const CustomerCreate = ({ history }) => {
         telephone: "",
         plan_type: "",
         Telly_version: "",
-        mode: "independent"
+        mode: "direct"
     }
     const [val, setVal] = useState(initialValue)
 
